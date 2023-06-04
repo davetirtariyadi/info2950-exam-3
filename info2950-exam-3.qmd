@@ -7,3 +7,94 @@ editor: visual
 execute:
   warning: false
 ---
+
+# Setup
+
+Load packages and data:
+
+```{r}
+#| label: load-packages
+library(tidyverse)
+library(tidymodels)
+
+# student debt data
+scorecard_test <- readRDS("C:/Users/davet/Desktop/Personal Projects/info2950-exam-3/data/scorecard-test.rds")
+scorecard_train <- readRDS("C:/Users/davet/Desktop/Personal Projects/info2950-exam-3/data/scorecard-train.rds")
+scorecard_folds <- vfold_cv(data = scorecard_train, v = 10)
+
+
+# song data
+spotify_test <- readRDS("C:/Users/davet/Desktop/Personal Projects/info2950-exam-3/data/spotify-test.rds")
+spotify_train <- readRDS("C:/Users/davet/Desktop/Personal Projects/info2950-exam-3/data/spotify-train.rds")
+spotify_folds <- vfold_cv(data = spotify_train, v = 10)
+```
+
+# Part 1: Student debt
+
+## Exercise 2
+
+```{r}
+#| label: null-model
+
+null_mod_debt <- null_model(mode = "regression") |>
+  set_engine("parsnip") 
+
+null_fit_debt <- null_mod_debt |>
+  fit_resamples(
+    debt ~ unit_id,
+    resamples = scorecard_folds
+  ) |>
+  collect_metrics()
+null_fit_debt
+```
+
+## Exercise 3
+
+```{r}
+#| label: ex3
+# add code here
+```
+
+## Exercise 4
+
+```{r}
+#| label: ex4
+# add code here
+```
+
+## Exercise 5
+
+```{r}
+#| label: ex5
+# add code here
+```
+
+# Part 2
+
+## Exercise 6
+
+```{r}
+#| label: ex6
+# add code here
+```
+
+## Exercise 7
+
+```{r}
+#| label: ex7
+# add code here
+```
+
+## Exercise 8
+
+```{r}
+#| label: ex8
+# add code here
+```
+
+## Exercise 9
+
+```{r}
+#| label: ex9
+# add code here
+```
