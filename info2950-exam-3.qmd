@@ -1,0 +1,9 @@
+---
+title: "Exam 03"
+author: "Dave Tirtariyadi"
+date: today
+format: html
+editor: visual
+execute:
+  warning: false
+---
