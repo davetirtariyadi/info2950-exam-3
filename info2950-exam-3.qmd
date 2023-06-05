@@ -6,6 +6,7 @@ format: html
 editor: visual
 execute:
   warning: false
+  cache: true
 ---
 
 # Setup
@@ -16,17 +17,23 @@ Load packages and data:
 #| label: load-packages
 library(tidyverse)
 library(tidymodels)
+library(skimr)
 
 # student debt data
 scorecard_test <- readRDS("C:/Users/davet/Desktop/Personal Projects/info2950-exam-3/data/scorecard-test.rds")
 scorecard_train <- readRDS("C:/Users/davet/Desktop/Personal Projects/info2950-exam-3/data/scorecard-train.rds")
 scorecard_folds <- vfold_cv(data = scorecard_train, v = 10)
 
-
 # song data
 spotify_test <- readRDS("C:/Users/davet/Desktop/Personal Projects/info2950-exam-3/data/spotify-test.rds")
 spotify_train <- readRDS("C:/Users/davet/Desktop/Personal Projects/info2950-exam-3/data/spotify-train.rds")
 spotify_folds <- vfold_cv(data = spotify_train, v = 10)
+
+ctrl_grid <- control_grid(save_workflow = TRUE)
+```
+
+```{r}
+skim(scorecard_train)
 ```
 
 # Part 1: Student debt
@@ -41,7 +48,7 @@ null_mod_debt <- null_model(mode = "regression") |>
 
 null_fit_debt <- null_mod_debt |>
   fit_resamples(
-    debt ~ unit_id,
+    debt ~ .,
     resamples = scorecard_folds
   ) |>
   collect_metrics()
@@ -51,15 +58,121 @@ null_fit_debt
 ## Exercise 3
 
 ```{r}
-#| label: ex3
-# add code here
+#| label: linear-reg
+
+linear_spec <- linear_reg() %>% 
+  set_engine("lm")
+
+linear_rec <- recipe(debt ~ ., data = scorecard_train) %>% 
+  step_rm(unit_id) %>% 
+  step_rm(name) %>% 
+  step_naomit(all_outcomes()) %>% 
+  step_nzv() %>% 
+  step_impute_median(all_numeric_predictors()) %>% 
+  step_impute_mode(all_nominal_predictors()) 
+  
+linear_wf <- workflow() %>% 
+  add_recipe(linear_rec) %>% 
+  add_model(linear_spec)
+
+linear_wf_fit <- linear_wf %>% 
+  fit_resamples(
+    resample = scorecard_folds,
+    control = ctrl_grid
+  )
+
+linear_wf_fit %>% 
+  collect_metrics()
 ```
 
 ## Exercise 4
 
 ```{r}
-#| label: ex4
-# add code here
+#| label: random-forest
+
+rf_rec <- recipe(debt ~ ., data = scorecard_train) |>
+  step_rm(unit_id, name) %>% 
+  step_impute_median(all_numeric_predictors()) |>
+  step_impute_mode(all_nominal_predictors()) |>
+  step_naomit(all_outcomes()) 
+
+rf_spec <- rand_forest(
+  mtry = tune(),
+  trees = tune(),
+  min_n = tune()
+  ) %>% 
+  set_engine("ranger") %>% 
+  set_mode("regression")
+
+rf_wf <- workflow() %>% 
+  add_recipe(rf_rec) %>% 
+  add_model(rf_spec)
+
+rf_tune <- rf_wf %>% 
+  tune_grid(
+    resample = scorecard_folds,
+    grid = 10, 
+    control = ctrl_grid
+  )
+
+rf_tune %>% 
+  collect_metrics
+```
+
+```{r}
+#| label: knn
+
+knn_rec <- rf_rec |> 
+  step_novel(all_nominal_predictors()) |>
+  step_zv(all_predictors()) |>
+  step_normalize(all_numeric_predictors())
+
+knn_spec <- nearest_neighbor(
+  neighbors = tune()
+) %>% 
+  set_engine("kknn") %>% 
+  set_mode("regression")
+
+knn_wf <- workflow() %>% 
+  add_recipe(knn_rec) %>% 
+  add_model(knn_spec)
+
+knn_tune <- knn_wf |>
+  tune_grid(
+    resample = scorecard_folds,
+    grid = 10,
+    control = ctrl_grid
+    )
+
+knn_tune %>% 
+  collect_metrics()
+```
+
+```{r}
+#| label: svm-rbf
+
+svm_rec <- knn_rec
+
+svm_spec <- svm_rbf(
+  cost = tune(),
+  rbf_sigm = tune(),
+  margin = tune()
+) %>% 
+  set_mode("regression")
+
+svm_wf <- workflow() %>% 
+  add_recipe(svm_rec) %>% 
+  add_model(svm_spec)
+
+svm_tune <- svm_wf |>
+  tune_grid(
+    resample = scorecard_folds,
+    grid = 10,
+    control = ctrl_grid
+    )
+
+svm_tune %>% 
+  collect_metrics()
 ```
 
 ## Exercise 5

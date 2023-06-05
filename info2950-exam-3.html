@@ -111,62 +111,705 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="setup" class="level1">
 <h1>Setup</h1>
 <p>Load packages and data:</p>
-<div class="cell">
+<div class="cell" data-hash="info2950-exam-3_cache/html/load-packages_d97ed40f222a799fc2a06c44e7a3d0f6">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># student debt data</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>scorecard_test <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"C:/Users/davet/Desktop/Personal Projects/info2950-exam-3/data/scorecard-test.rds"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>scorecard_train <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"C:/Users/davet/Desktop/Personal Projects/info2950-exam-3/data/scorecard-train.rds"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>scorecard_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(<span class="at">data =</span> scorecard_train, <span class="at">v =</span> <span class="dv">10</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># student debt data</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>scorecard_test <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"C:/Users/davet/Desktop/Personal Projects/info2950-exam-3/data/scorecard-test.rds"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>scorecard_train <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"C:/Users/davet/Desktop/Personal Projects/info2950-exam-3/data/scorecard-train.rds"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>scorecard_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(<span class="at">data =</span> scorecard_train, <span class="at">v =</span> <span class="dv">10</span>)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># song data</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>spotify_test <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"C:/Users/davet/Desktop/Personal Projects/info2950-exam-3/data/spotify-test.rds"</span>)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>spotify_train <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"C:/Users/davet/Desktop/Personal Projects/info2950-exam-3/data/spotify-train.rds"</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>spotify_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(<span class="at">data =</span> spotify_train, <span class="at">v =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>spotify_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(<span class="at">data =</span> spotify_train, <span class="at">v =</span> <span class="dv">10</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>ctrl_grid <span class="ot">&lt;-</span> <span class="fu">control_grid</span>(<span class="at">save_workflow =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="info2950-exam-3_cache/html/unnamed-chunk-2_3ebdc528c8398bc58bf83f1dbe49c3d5">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(scorecard_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">scorecard_train</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">2136</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">28</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">factor</td>
+<td style="text-align: left;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 13%">
+<col style="width: 19%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 8%">
+<col style="width: 12%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">empty</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: right;">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">name</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">81</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2119</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">state</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">56</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: factor</strong></p>
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: left;">ordered</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: left;">top_counts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">locale</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Cit: 1139, Sub: 529, Tow: 340, Rur: 128</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">open_admissions</td>
+<td style="text-align: right;">313</td>
+<td style="text-align: right;">0.85</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">No: 1374, Yes: 449, Doe: 0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pbi</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">No: 2117, Yes: 18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">test_policy</td>
+<td style="text-align: right;">765</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Con: 715, Nei: 300, Rec: 216, Req: 140</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">type</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Pri: 1300, Pub: 593, Pri: 243</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">women_only</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">No: 2113, Yes: 23</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">unit_id</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">234214.76</td>
+<td style="text-align: right;">115576.09</td>
+<td style="text-align: right;">100663.00</td>
+<td style="text-align: right;">156340.75</td>
+<td style="text-align: right;">198848.50</td>
+<td style="text-align: right;">237133.75</td>
+<td style="text-align: right;">497213.00</td>
+<td style="text-align: left;">▇▇▁▁▃</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">act_med</td>
+<td style="text-align: right;">1357</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">24.29</td>
+<td style="text-align: right;">4.21</td>
+<td style="text-align: right;">14.00</td>
+<td style="text-align: right;">21.00</td>
+<td style="text-align: right;">24.00</td>
+<td style="text-align: right;">27.00</td>
+<td style="text-align: right;">35.00</td>
+<td style="text-align: left;">▁▇▇▃▂</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">adm_rate</td>
+<td style="text-align: right;">775</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: right;">0.77</td>
+<td style="text-align: right;">0.89</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: left;">▁▁▂▆▇</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">comp_rate</td>
+<td style="text-align: right;">381</td>
+<td style="text-align: right;">0.82</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.68</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: left;">▂▅▇▆▂</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cost_net</td>
+<td style="text-align: right;">398</td>
+<td style="text-align: right;">0.81</td>
+<td style="text-align: right;">18794.67</td>
+<td style="text-align: right;">8829.44</td>
+<td style="text-align: right;">-4247.00</td>
+<td style="text-align: right;">12729.75</td>
+<td style="text-align: right;">18381.00</td>
+<td style="text-align: right;">24104.00</td>
+<td style="text-align: right;">50759.00</td>
+<td style="text-align: left;">▂▇▇▂▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cost_sticker</td>
+<td style="text-align: right;">425</td>
+<td style="text-align: right;">0.80</td>
+<td style="text-align: right;">34357.07</td>
+<td style="text-align: right;">17261.28</td>
+<td style="text-align: right;">5271.00</td>
+<td style="text-align: right;">20923.50</td>
+<td style="text-align: right;">29352.00</td>
+<td style="text-align: right;">46475.50</td>
+<td style="text-align: right;">81531.00</td>
+<td style="text-align: left;">▅▇▅▃▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">death_pct</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: left;">▆▇▅▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">debt</td>
+<td style="text-align: right;">416</td>
+<td style="text-align: right;">0.81</td>
+<td style="text-align: right;">15079.77</td>
+<td style="text-align: right;">4816.67</td>
+<td style="text-align: right;">2334.00</td>
+<td style="text-align: right;">12000.00</td>
+<td style="text-align: right;">15000.00</td>
+<td style="text-align: right;">18750.00</td>
+<td style="text-align: right;">33443.00</td>
+<td style="text-align: left;">▂▇▇▂▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">earnings_med</td>
+<td style="text-align: right;">388</td>
+<td style="text-align: right;">0.82</td>
+<td style="text-align: right;">42623.80</td>
+<td style="text-align: right;">13904.02</td>
+<td style="text-align: right;">9040.00</td>
+<td style="text-align: right;">33982.75</td>
+<td style="text-align: right;">40681.50</td>
+<td style="text-align: right;">47907.75</td>
+<td style="text-align: right;">131716.00</td>
+<td style="text-align: left;">▃▇▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">earnings_sd</td>
+<td style="text-align: right;">968</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">34336.21</td>
+<td style="text-align: right;">12995.90</td>
+<td style="text-align: right;">16680.00</td>
+<td style="text-align: right;">26824.00</td>
+<td style="text-align: right;">31527.50</td>
+<td style="text-align: right;">38301.25</td>
+<td style="text-align: right;">144459.00</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">faculty_full_time</td>
+<td style="text-align: right;">236</td>
+<td style="text-align: right;">0.89</td>
+<td style="text-align: right;">0.63</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">0.92</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: left;">▂▃▅▅▇</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">faculty_salary_mean</td>
+<td style="text-align: right;">86</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;">68912.42</td>
+<td style="text-align: right;">25209.82</td>
+<td style="text-align: right;">5337.00</td>
+<td style="text-align: right;">53039.25</td>
+<td style="text-align: right;">66514.50</td>
+<td style="text-align: right;">81157.50</td>
+<td style="text-align: right;">195480.00</td>
+<td style="text-align: left;">▂▇▂▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">400</td>
+<td style="text-align: right;">0.81</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: left;">▁▁▇▆▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">first_gen</td>
+<td style="text-align: right;">466</td>
+<td style="text-align: right;">0.78</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.85</td>
+<td style="text-align: left;">▃▇▆▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">instruct_exp</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">11739.37</td>
+<td style="text-align: right;">18038.01</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">5753.00</td>
+<td style="text-align: right;">8595.00</td>
+<td style="text-align: right;">12635.00</td>
+<td style="text-align: right;">598759.00</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">median_hh_inc</td>
+<td style="text-align: right;">355</td>
+<td style="text-align: right;">0.83</td>
+<td style="text-align: right;">62105.58</td>
+<td style="text-align: right;">12181.05</td>
+<td style="text-align: right;">16201.00</td>
+<td style="text-align: right;">55115.00</td>
+<td style="text-align: right;">62210.00</td>
+<td style="text-align: right;">70368.00</td>
+<td style="text-align: right;">96950.00</td>
+<td style="text-align: left;">▁▂▇▆▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pell_pct</td>
+<td style="text-align: right;">247</td>
+<td style="text-align: right;">0.88</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: left;">▃▇▅▂▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">retention_rate</td>
+<td style="text-align: right;">520</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">0.72</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">0.83</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: left;">▁▁▂▇▅</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sat_mean</td>
+<td style="text-align: right;">1319</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: right;">1160.81</td>
+<td style="text-align: right;">135.33</td>
+<td style="text-align: right;">776.00</td>
+<td style="text-align: right;">1067.00</td>
+<td style="text-align: right;">1134.00</td>
+<td style="text-align: right;">1235.00</td>
+<td style="text-align: right;">1535.00</td>
+<td style="text-align: left;">▁▅▇▃▂</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">veteran</td>
+<td style="text-align: right;">1518</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </section>
 <section id="part-1-student-debt" class="level1">
 <h1>Part 1: Student debt</h1>
 <section id="exercise-2" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-2">Exercise 2</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>null_mod_debt <span class="ot">&lt;-</span> <span class="fu">null_model</span>(<span class="at">mode =</span> <span class="st">"regression"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"parsnip"</span>) </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>null_fit_debt <span class="ot">&lt;-</span> null_mod_debt <span class="sc">|&gt;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    debt <span class="sc">~</span> unit_id,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> scorecard_folds</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>null_fit_debt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="info2950-exam-3_cache/html/null-model_dd9dc9062481670d44fbcc682a892f8e">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>null_mod_debt <span class="ot">&lt;-</span> <span class="fu">null_model</span>(<span class="at">mode =</span> <span class="st">"regression"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"parsnip"</span>) </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>null_fit_debt <span class="ot">&lt;-</span> null_mod_debt <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    debt <span class="sc">~</span> .,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">resamples =</span> scorecard_folds</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>null_fit_debt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 6
   .metric .estimator  mean     n std_err .config             
   &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
-1 rmse    standard   4810.    10    88.6 Preprocessor1_Model1
+1 rmse    standard   4806.    10    84.5 Preprocessor1_Model1
 2 rsq     standard    NaN      0    NA   Preprocessor1_Model1</code></pre>
 </div>
 </div>
 </section>
 <section id="exercise-3" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="info2950-exam-3_cache/html/linear-reg_1d0be15a919d011e0c61be2c32cfef65">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>linear_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>linear_rec <span class="ot">&lt;-</span> <span class="fu">recipe</span>(debt <span class="sc">~</span> ., <span class="at">data =</span> scorecard_train) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_rm</span>(unit_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_rm</span>(name) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_naomit</span>(<span class="fu">all_outcomes</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_nzv</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_impute_median</span>(<span class="fu">all_numeric_predictors</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_impute_mode</span>(<span class="fu">all_nominal_predictors</span>()) </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>linear_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(linear_rec) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(linear_spec)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>linear_wf_fit <span class="ot">&lt;-</span> linear_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">resample =</span> scorecard_folds,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">control =</span> ctrl_grid</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>linear_wf_fit <span class="sc">%&gt;%</span> </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 6
+  .metric .estimator     mean     n std_err .config             
+  &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+1 rmse    standard   3522.        9 75.5    Preprocessor1_Model1
+2 rsq     standard      0.470     9  0.0206 Preprocessor1_Model1</code></pre>
+</div>
 </div>
 </section>
 <section id="exercise-4" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-4">Exercise 4</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="info2950-exam-3_cache/html/random-forest_96a53195a3915e1a27a9d3dc475f0f55">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rf_rec <span class="ot">&lt;-</span> <span class="fu">recipe</span>(debt <span class="sc">~</span> ., <span class="at">data =</span> scorecard_train) <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_rm</span>(unit_id, name) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_impute_median</span>(<span class="fu">all_numeric_predictors</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_impute_mode</span>(<span class="fu">all_nominal_predictors</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_naomit</span>(<span class="fu">all_outcomes</span>()) </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>rf_spec <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">mtry =</span> <span class="fu">tune</span>(),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">trees =</span> <span class="fu">tune</span>(),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n =</span> <span class="fu">tune</span>()</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>rf_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rf_rec) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(rf_spec)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>rf_tune <span class="ot">&lt;-</span> rf_wf <span class="sc">%&gt;%</span> </span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">resample =</span> scorecard_folds,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> <span class="dv">10</span>, </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">control =</span> ctrl_grid</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>rf_tune <span class="sc">%&gt;%</span> </span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  collect_metrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 9
+    mtry trees min_n .metric .estimator     mean     n  std_err .config         
+   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;           
+ 1    14  1670     4 rmse    standard   3164.        7 102.     Preprocessor1_M…
+ 2    14  1670     4 rsq     standard      0.560     7   0.0204 Preprocessor1_M…
+ 3    17  1093     8 rmse    standard   3169.        7 106.     Preprocessor1_M…
+ 4    17  1093     8 rsq     standard      0.559     7   0.0213 Preprocessor1_M…
+ 5    18  1804    31 rmse    standard   3213.        7 102.     Preprocessor1_M…
+ 6    18  1804    31 rsq     standard      0.546     7   0.0198 Preprocessor1_M…
+ 7    22   800    34 rmse    standard   3221.        7 102.     Preprocessor1_M…
+ 8    22   800    34 rsq     standard      0.544     7   0.0195 Preprocessor1_M…
+ 9     7   871    13 rmse    standard   3181.        7 104.     Preprocessor1_M…
+10     7   871    13 rsq     standard      0.556     7   0.0220 Preprocessor1_M…
+11    24    85    18 rmse    standard   3201.        7 100.     Preprocessor1_M…
+12    24    85    18 rsq     standard      0.550     7   0.0193 Preprocessor1_M…
+13     2   264    28 rmse    standard   3270.        7 105.     Preprocessor1_M…
+14     2   264    28 rsq     standard      0.540     7   0.0232 Preprocessor1_M…
+15     8  1419    38 rmse    standard   3233.        7 103.     Preprocessor1_M…
+16     8  1419    38 rsq     standard      0.542     7   0.0219 Preprocessor1_M…
+17    11   550    24 rmse    standard   3198.        7 103.     Preprocessor1_M…
+18    11   550    24 rsq     standard      0.551     7   0.0208 Preprocessor1_M…
+19     3  1391    10 rmse    standard   3180.        7 106.     Preprocessor1_M…
+20     3  1391    10 rsq     standard      0.560     7   0.0231 Preprocessor1_M…</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="info2950-exam-3_cache/html/knn_49c6133d82c2ab17b6f6bbe25e7d3703">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>knn_rec <span class="ot">&lt;-</span> rf_rec <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_novel</span>(<span class="fu">all_nominal_predictors</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_normalize</span>(<span class="fu">all_numeric_predictors</span>())</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>knn_spec <span class="ot">&lt;-</span> <span class="fu">nearest_neighbor</span>(</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">neighbors =</span> <span class="fu">tune</span>()</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"kknn"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>knn_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(knn_rec) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(knn_spec)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>knn_tune <span class="ot">&lt;-</span> knn_wf <span class="sc">|&gt;</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">resample =</span> scorecard_folds,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> <span class="dv">10</span>,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">control =</span> ctrl_grid</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>knn_tune <span class="sc">%&gt;%</span> </span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 7
+   neighbors .metric .estimator     mean     n std_err .config              
+       &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;                
+ 1         2 rmse    standard   4008.       10 89.6    Preprocessor1_Model01
+ 2         2 rsq     standard      0.389    10  0.0244 Preprocessor1_Model01
+ 3         3 rmse    standard   3797.       10 86.7    Preprocessor1_Model02
+ 4         3 rsq     standard      0.424    10  0.0242 Preprocessor1_Model02
+ 5         5 rmse    standard   3605.       10 84.5    Preprocessor1_Model03
+ 6         5 rsq     standard      0.458    10  0.0233 Preprocessor1_Model03
+ 7         6 rmse    standard   3550.       10 84.6    Preprocessor1_Model04
+ 8         6 rsq     standard      0.469    10  0.0231 Preprocessor1_Model04
+ 9         7 rmse    standard   3511.       10 84.0    Preprocessor1_Model05
+10         7 rsq     standard      0.477    10  0.0228 Preprocessor1_Model05
+11         8 rmse    standard   3481.       10 83.2    Preprocessor1_Model06
+12         8 rsq     standard      0.483    10  0.0225 Preprocessor1_Model06
+13        10 rmse    standard   3436.       10 82.7    Preprocessor1_Model07
+14        10 rsq     standard      0.494    10  0.0222 Preprocessor1_Model07
+15        11 rmse    standard   3420.       10 82.5    Preprocessor1_Model08
+16        11 rsq     standard      0.497    10  0.0220 Preprocessor1_Model08
+17        13 rmse    standard   3398.       10 82.4    Preprocessor1_Model09
+18        13 rsq     standard      0.502    10  0.0217 Preprocessor1_Model09
+19        14 rmse    standard   3391.       10 82.7    Preprocessor1_Model10
+20        14 rsq     standard      0.504    10  0.0216 Preprocessor1_Model10</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="info2950-exam-3_cache/html/svm-rbf_25730b6843165ac1c95d5c30c4ee4025">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>svm_rec <span class="ot">&lt;-</span> knn_rec</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>svm_spec <span class="ot">&lt;-</span> <span class="fu">svm_rbf</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cost =</span> <span class="fu">tune</span>(),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">rbf_sigm =</span> <span class="fu">tune</span>(),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">margin =</span> <span class="fu">tune</span>()</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>svm_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(svm_rec) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(svm_spec)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>svm_tune <span class="ot">&lt;-</span> svm_wf <span class="sc">|&gt;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tune_grid</span>(</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">resample =</span> scorecard_folds,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> <span class="dv">10</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">control =</span> ctrl_grid</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>svm_tune <span class="sc">%&gt;%</span> </span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 9
+       cost rbf_sigma margin .metric .estimator     mean     n std_err .config  
+      &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;    
+ 1  0.00109  1.16e- 9 0.0290 rmse    standard   4808.       10 85.5    Preproce…
+ 2  0.00109  1.16e- 9 0.0290 rsq     standard      0.285    10  0.0225 Preproce…
+ 3  0.0390   3.95e- 8 0.0635 rmse    standard   4806.       10 85.3    Preproce…
+ 4  0.0390   3.95e- 8 0.0635 rsq     standard      0.288    10  0.0226 Preproce…
+ 5  1.10     7.52e- 1 0.165  rmse    standard   4369.       10 83.1    Preproce…
+ 6  1.10     7.52e- 1 0.165  rsq     standard      0.253    10  0.0109 Preproce…
+ 7  0.164    3.05e- 3 0.0555 rmse    standard   3616.       10 76.7    Preproce…
+ 8  0.164    3.05e- 3 0.0555 rsq     standard      0.448    10  0.0204 Preproce…
+ 9  0.185    2.78e- 7 0.187  rmse    standard   4807.       10 86.2    Preproce…
+10  0.185    2.78e- 7 0.187  rsq     standard      0.290    10  0.0228 Preproce…
+11  1.57     1.65e- 4 0.131  rmse    standard   3779.       10 69.3    Preproce…
+12  1.57     1.65e- 4 0.131  rsq     standard      0.406    10  0.0209 Preproce…
+13  7.54     3.29e- 2 0.140  rmse    standard   3231.       10 69.1    Preproce…
+14  7.54     3.29e- 2 0.140  rsq     standard      0.556    10  0.0176 Preproce…
+15  0.00536  1.41e-10 0.0104 rmse    standard   4807.       10 85.4    Preproce…
+16  0.00536  1.41e-10 0.0104 rsq     standard      0.284    10  0.0225 Preproce…
+17 22.9      4.31e- 6 0.100  rmse    standard   4040.       10 70.4    Preproce…
+18 22.9      4.31e- 6 0.100  rsq     standard      0.357    10  0.0218 Preproce…
+19  0.0112   5.38e- 5 0.0952 rmse    standard   4795.       10 85.3    Preproce…
+20  0.0112   5.38e- 5 0.0952 rsq     standard      0.290    10  0.0225 Preproce…</code></pre>
+</div>
 </div>
 </section>
 <section id="exercise-5" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-5">Exercise 5</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="info2950-exam-3_cache/html/ex5_afd4fc23e7638403341510f5c5d0631f">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -174,26 +817,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Part 2</h1>
 <section id="exercise-6" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-6">Exercise 6</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="info2950-exam-3_cache/html/ex6_9d1631881cff01b095d9c2eef986d388">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise-7" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-7">Exercise 7</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="info2950-exam-3_cache/html/ex7_e478e792cb6ad658ab57027b79f063a9">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise-8" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-8">Exercise 8</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="info2950-exam-3_cache/html/ex8_500a86ad2be66f71695d1b39e652ccbd">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise-9" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-9">Exercise 9</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="info2950-exam-3_cache/html/ex9_e55c83529b2f4df95f62e05e4ab3d5f2">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
