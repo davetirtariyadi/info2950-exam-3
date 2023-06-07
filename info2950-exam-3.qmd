@@ -194,8 +194,21 @@ svm_tune %>%
 ## Exercise 7
 
 ```{r}
-#| label: ex7
-# add code here
+#| label: logistic-reg
+
+logistic_spec <- logistic_reg() |>
+  set_engine(engine = "glm") |>
+  set_mode("classification")
+
+logistic_fit <- logistic_spec %>% 
+  fit_resamples(
+    danceability ~ .,
+    resample = spotify_folds
+  )
+
+logistic_wf_fit %>% 
+  collect_metrics()
+
 ```
 
 ## Exercise 8
